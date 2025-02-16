@@ -25,7 +25,7 @@ La estructura del proyecto sigue el estándar de **npm**:
 │   │  
 │   │   ├── 📄 TransactionContext.js  → Contexto de la transacción  
 │   │   ├── 📄 TransactionState.js    → Clase abstracta  
-│   │   ├── 📄 PendingState.js        → Estado "En Curso"  
+│   │   ├── 📄 InProgressState.js        → Estado "En Curso"  
 │   │   ├── 📄 ApprovedState.js       → Estado "Aprobada"  
 │   │   ├── 📄 RejectedState.js       → Estado "Rechazada"  
 │  
@@ -56,9 +56,10 @@ Este proyecto utiliza las siguientes dependencias definidas en el archivo `packa
 ## Instrucciones de Instalación
 Clonar el repositorio:
 
-git clone https://github.com/usuario/nombre_repositorio.git
+git clone https://github.com/AndreSosa21/StatePattern
 
 O copiar el siguiente despliegue en Postman y añadir el siguiente JSON:
+
 ```xml
 {
   "sourceAccount": 123456789,
@@ -71,10 +72,11 @@ O copiar el siguiente despliegue en Postman y añadir el siguiente JSON:
 Ejecutar el proyecto:
 
 Ejemplo de Ejecución
-Al ejecutar el programa, deberías ver la siguiente salida, si haces una solicitud POST:
+Al ejecutar el programa, deberías ver la siguiente salida (ejemplo), si haces una solicitud POST:
 ```xml
 {
-  "message": "Transaction created successfully",
+  "message": "Transaction in progress",
+  "transactionId": "TXN1739736484622"
 }
 ```
 Al ejecutar el programa, deberías ver algo como la siguiente salida, si haces una solicitud GET:
@@ -104,7 +106,21 @@ El siguiente diagrama muestra la estructura del patrón implementado:
 Diagrama UML
 
 ## Explicación de la Implementación
-El patrón [State] ha sido implementado utilizando las siguientes clases principales: - [Clase 1]: Explicación del propósito de la clase. - [Clase 2]: Explicación del propósito de la clase. - [Clase 3]: Explicación del propósito de la clase.
+El patrón [State] ha sido implementado utilizando las siguientes clases principales:
+
+- [TransactionContext]: Es la clase principal que maneja el estado de la transacción.
+Permite cambiar el estado  y ejecuta la lógica de validación.. 
+
+- [TransactionState]: Es una clase abstracta que los estados concretos deben implementar. - [InProgressState]: Este estado significa que la transacción se está procesando.
+Después de 1 minuto, se validará y cambiará a Aprobado o Rechazado.
+
+- [ApprovedState]: Significa que la transacción fue validada correctamente y aprobada.
+Esto ocurre cuando el número de cuenta destino existe y coincide con el tipo de cuenta.
+
+- [RejectedState]: Indica que la transacción fue rechazada por uno de estos motivos:
+
+    El número de cuenta destino NO existe.
+    El número de cuenta destino existe, pero el tipo de cuenta no coincide.
 
 ## Contribuciones
 Este proyecto fue desarrollado por: - **Andrea Julieth Sosa Rodriguez** -**Samuel Andres Rodriguez Ulloa** -**David Santiago Medina Buitrago**
