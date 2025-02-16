@@ -1,44 +1,43 @@
-
 {
     "accounts": [
         {
-            "accountNumber": "987654321",
+            "accountNumber": "9876-5432-1234-5678",
             "accountType": "ahorros"
         },
         {
-            "accountNumber": "555555555",
-            "accountType": "corrriente"
-        },
-        {
-            "accountNumber": "123456789",
-            "accountType": "ahorros"
-        },
-        {
-            "accountNumber": "111111111",
+            "accountNumber": "5555-5555-5555-5555",
             "accountType": "corriente"
         },
         {
-            "accountNumber": "222222222",
+            "accountNumber": "1234-5678-9012-3456",
             "accountType": "ahorros"
         },
         {
-            "accountNumber": "333333333",
+            "accountNumber": "1111-1111-1111-1111",
             "accountType": "corriente"
         },
         {
-            "accountNumber": "444444444",
+            "accountNumber": "2222-2222-2222-2222",
             "accountType": "ahorros"
         },
         {
-            "accountNumber": "666666666",
+            "accountNumber": "3333-3333-3333-3333",
             "accountType": "corriente"
         },
         {
-            "accountNumber": "777777777",
+            "accountNumber": "4444-4444-4444-4444",
             "accountType": "ahorros"
         },
         {
-            "accountNumber": "888888888",
+            "accountNumber": "6666-6666-6666-6666",
+            "accountType": "corriente"
+        },
+        {
+            "accountNumber": "7777-7777-7777-7777",
+            "accountType": "ahorros"
+        },
+        {
+            "accountNumber": "8888-8888-8888-8888",
             "accountType": "corriente"
         }
     ]
