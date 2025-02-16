@@ -1,0 +1,44 @@
+{
+    "accounts": [
+        {
+            "accountNumber": "987654321",
+            "accountType": "ahorro"
+        },
+        {
+            "accountNumber": "555555555",
+            "accountType": "corrriente"
+        },
+        {
+            "accountNumber": "123456789",
+            "accountType": "ahorro"
+        },
+        {
+            "accountNumber": "111111111",
+            "accountType": "corriente"
+        },
+        {
+            "accountNumber": "222222222",
+            "accountType": "ahorro"
+        },
+        {
+            "accountNumber": "333333333",
+            "accountType": "corriente"
+        },
+        {
+            "accountNumber": "444444444",
+            "accountType": "ahorro"
+        },
+        {
+            "accountNumber": "666666666",
+            "accountType": "corriente"
+        },
+        {
+            "accountNumber": "777777777",
+            "accountType": "ahorro"
+        },
+        {
+            "accountNumber": "888888888",
+            "accountType": "corriente"
+        }
+    ]
+}
