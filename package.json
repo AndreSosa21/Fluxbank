@@ -1,0 +1,24 @@
+{
+  "name": "statepattern",
+  "version": "1.0.0",
+  "description": "El patrón **State** es utilizado para **permitir que un objeto altere su comportamiento cuando su estado interno cambia**.  \r Este proyecto demuestra su implementación mediante un ejemplo práctico en **Javascript**, utilizando **npm** como gestor de dependencias.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreSosa21/StatePattern.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndreSosa21/StatePattern/issues"
+  },
+  "homepage": "https://github.com/AndreSosa21/StatePattern#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
