@@ -40,9 +40,9 @@ git clone https://github.com/usuario/nombre_repositorio.git
 O copiar el siguiente despliegue en Postman y añadir el siguiente JSON:
 ```xml
 {
-  "sourceAccount": "123456789",
-  "destinationAccount": "987654321",
-  "accountType": "savings",
+  "sourceAccount": 123456789,
+  "destinationAccount": 987654321,
+  "accountType": "ahorro",
   "amount": 100.50
 }
 
@@ -59,17 +59,18 @@ Al ejecutar el programa, deberías ver la siguiente salida, si haces una solicit
 Al ejecutar el programa, deberías ver algo como la siguiente salida, si haces una solicitud GET:
 ```xml
 {
- 
-  "transactions": {
-    "transactionId": "TXN123456",
-    "sourceAccount": "123456789",
-    "destinationAccount": "987654321",
-    "accountType": "savings",
-    "amount": 100.50,
-    "status": "approved",
-    "time": "18:00",
-    "Date": "16-02-2025"
-  }
+    "transactions": [
+        {
+            "transactionId": "TXN1739728305673",
+            "sourceAccount": 1627271722,
+            "destinationAccount": 999999,
+            "accountType": "ahorro",
+            "amount": 10000,
+            "status": "inprogress",
+            "time": "12:51:45 p. m.",
+            "date": "16/2/2025"
+        }
+    ]
 }
 ```
 Si deseas ver una interfaz visual del banco dirigete al siguiente despliegue:
