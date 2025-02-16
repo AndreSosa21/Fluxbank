@@ -11,6 +11,14 @@ app.use(cors());
 app.use("/transactions", transactionRoutes);
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+// Ruta de verificación para saber si el servidor está en línea
+app.get("/", (req, res) => {
+    res.json({ message: "🚀 Backend desplegado correctamente en Vercel!" });
+});
+
+module.exports = app;
+
