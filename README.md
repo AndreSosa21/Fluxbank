@@ -6,31 +6,52 @@ Este proyecto demuestra su implementación mediante un ejemplo práctico en **Ja
 
 ## Estructura del Proyecto
 La estructura del proyecto sigue el estándar de **npm**:
-Statepatterh
+
+📂 StatePattern/
+
 │
-├── pom.xml                # Archivo de configuración de Maven
-├── README.md              # Documentación del proyecto
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── [paquete base]    # Código fuente principal
-    │   └── resources             # Recursos adicionales
-    └── test
-        └── java                  # Pruebas unitarias
+
+├── 📄 .gitignore                 → Ignorar archivos innecesarios  
+├── 📄 README.md                  → Documentación del proyecto  
+├── 📄 package.json               → Configuración de npm  
+├── 📄 package-lock.json          → Archivo de dependencias npm  
+├── 📄 vercel.json                → Configuración para despliegue en Vercel  
+
+│  
+
+├── 📂 src/                       → Carpeta principal del código fuente  
+
+│   ├── 📂 models/                → Clases del Patrón State  
+│   │  
+│   │   ├── 📄 TransactionContext.js  → Contexto de la transacción  
+│   │   ├── 📄 TransactionState.js    → Clase abstracta  
+│   │   ├── 📄 PendingState.js        → Estado "En Curso"  
+│   │   ├── 📄 ApprovedState.js       → Estado "Aprobada"  
+│   │   ├── 📄 RejectedState.js       → Estado "Rechazada"  
+│  
+
+│   ├── 📂 routes/                → Rutas de la API  
+│   │  
+│   │   ├── 📄 transactionRoutes.js   → Rutas para transacciones  
+│  
+
+│   ├── 📂 data/                  → Base de datos simulada  
+│   │  
+│   │   ├── 📄 accounts.json       → Información de cuentas bancarias  
+│  
+
+│   ├── 📄 index.js               → Servidor principal con Express  
+
 
 ## Dependencias Utilizadas
-Este proyecto utiliza las siguientes dependencias definidas en el archivo `pom.xml`:
+Este proyecto utiliza las siguientes dependencias definidas en el archivo `package.json`:
 
 ```xml
-<dependencies>
-    <!-- Dependencias estándar de Maven -->
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
+"dependencies": {
+  "express": "^4.18.2",     
+  "cors": "^2.8.5" 
+}
+
 ```
 ## Instrucciones de Instalación
 Clonar el repositorio:
