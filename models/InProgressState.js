@@ -1,11 +1,12 @@
 const TransactionState = require("./TransactionState");
-
+//this class represents the InProgress state of a transaction
 class InProgressState extends TransactionState {
     process(transaction) {
-        console.log(`La transacción ${transaction.transactionId} está en curso...`);
+        console.log(`The transaction ${transaction.transactionId} is in progress...`);
+        // Validate the transaction after 60 seconds
         setTimeout(() => {
             transaction.validateTransaction();
-        }, 60000); // 1 minuto
+        }, 60000); 
     }
 }
 

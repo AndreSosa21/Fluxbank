@@ -1,8 +1,9 @@
+
 {
     "accounts": [
         {
             "accountNumber": "987654321",
-            "accountType": "ahorro"
+            "accountType": "ahorros"
         },
         {
             "accountNumber": "555555555",
@@ -10,7 +11,7 @@
         },
         {
             "accountNumber": "123456789",
-            "accountType": "ahorro"
+            "accountType": "ahorros"
         },
         {
             "accountNumber": "111111111",
@@ -18,7 +19,7 @@
         },
         {
             "accountNumber": "222222222",
-            "accountType": "ahorro"
+            "accountType": "ahorros"
         },
         {
             "accountNumber": "333333333",
@@ -26,7 +27,7 @@
         },
         {
             "accountNumber": "444444444",
-            "accountType": "ahorro"
+            "accountType": "ahorros"
         },
         {
             "accountNumber": "666666666",
@@ -34,7 +35,7 @@
         },
         {
             "accountNumber": "777777777",
-            "accountType": "ahorro"
+            "accountType": "ahorros"
         },
         {
             "accountNumber": "888888888",

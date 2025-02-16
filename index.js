@@ -1,3 +1,5 @@
+// the main file of the project
+
 const express = require("express");
 const cors = require("cors");
 const transactionRoutes = require("./routes/transactionRoutes");

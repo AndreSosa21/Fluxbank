@@ -1,6 +1,7 @@
+// this class is the base class for the transaction states
 class TransactionState {
     process(transaction) {
-        throw new Error("Método 'process' debe ser implementado.");
+        throw new Error("Method 'process' must be implemented.");
     }
 }
 
