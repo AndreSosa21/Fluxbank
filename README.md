@@ -58,7 +58,11 @@ Clonar el repositorio:
 
 git clone https://github.com/AndreSosa21/StatePattern
 
-O copiar el siguiente despliegue en Postman y añadir el siguiente JSON:
+O copiar el siguiente despliegue en Postman:
+
+https://state-pattern-andresosa21-andresosa21s-projects.vercel.app/
+
+y añadir el siguiente JSON:
 
 ```xml
 {
