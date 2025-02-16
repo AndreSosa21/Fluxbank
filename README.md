@@ -6,38 +6,60 @@ Este proyecto demuestra su implementación mediante un ejemplo práctico en **Ja
 
 ## Estructura del Proyecto
 La estructura del proyecto sigue el estándar de **npm**:
-Statepatterh
+
+📂 StatePattern/
+
 │
-├── pom.xml                # Archivo de configuración de Maven
-├── README.md              # Documentación del proyecto
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── [paquete base]    # Código fuente principal
-    │   └── resources             # Recursos adicionales
-    └── test
-        └── java                  # Pruebas unitarias
+
+├── 📄 .gitignore                 → Ignorar archivos innecesarios  
+├── 📄 README.md                  → Documentación del proyecto  
+├── 📄 package.json               → Configuración de npm  
+├── 📄 package-lock.json          → Archivo de dependencias npm  
+├── 📄 vercel.json                → Configuración para despliegue en Vercel  
+
+│  
+
+├── 📂 src/                       → Carpeta principal del código fuente  
+
+│   ├── 📂 models/                → Clases del Patrón State  
+│   │  
+│   │   ├── 📄 TransactionContext.js  → Contexto de la transacción  
+│   │   ├── 📄 TransactionState.js    → Clase abstracta  
+│   │   ├── 📄 InProgressState.js        → Estado "En Curso"  
+│   │   ├── 📄 ApprovedState.js       → Estado "Aprobada"  
+│   │   ├── 📄 RejectedState.js       → Estado "Rechazada"  
+│  
+
+│   ├── 📂 routes/                → Rutas de la API  
+│   │  
+│   │   ├── 📄 transactionRoutes.js   → Rutas para transacciones  
+│  
+
+│   ├── 📂 data/                  → Base de datos simulada  
+│   │  
+│   │   ├── 📄 accounts.json       → Información de cuentas bancarias  
+│  
+
+│   ├── 📄 index.js               → Servidor principal con Express  
+
 
 ## Dependencias Utilizadas
-Este proyecto utiliza las siguientes dependencias definidas en el archivo `pom.xml`:
+Este proyecto utiliza las siguientes dependencias definidas en el archivo `package.json`:
 
 ```xml
-<dependencies>
-    <!-- Dependencias estándar de Maven -->
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
+"dependencies": {
+  "express": "^4.18.2",     
+  "cors": "^2.8.5" 
+}
+
 ```
 ## Instrucciones de Instalación
 Clonar el repositorio:
 
-git clone https://github.com/usuario/nombre_repositorio.git
+git clone https://github.com/AndreSosa21/StatePattern
 
 O copiar el siguiente despliegue en Postman y añadir el siguiente JSON:
+
 ```xml
 {
   "sourceAccount": 123456789,
@@ -50,10 +72,11 @@ O copiar el siguiente despliegue en Postman y añadir el siguiente JSON:
 Ejecutar el proyecto:
 
 Ejemplo de Ejecución
-Al ejecutar el programa, deberías ver la siguiente salida, si haces una solicitud POST:
+Al ejecutar el programa, deberías ver la siguiente salida (ejemplo), si haces una solicitud POST:
 ```xml
 {
-  "message": "Transaction created successfully",
+  "message": "Transaction in progress",
+  "transactionId": "TXN1739736484622"
 }
 ```
 Al ejecutar el programa, deberías ver algo como la siguiente salida, si haces una solicitud GET:
@@ -83,7 +106,21 @@ El siguiente diagrama muestra la estructura del patrón implementado:
 Diagrama UML
 
 ## Explicación de la Implementación
-El patrón [State] ha sido implementado utilizando las siguientes clases principales: - [Clase 1]: Explicación del propósito de la clase. - [Clase 2]: Explicación del propósito de la clase. - [Clase 3]: Explicación del propósito de la clase.
+El patrón [State] ha sido implementado utilizando las siguientes clases principales:
+
+- [TransactionContext]: Es la clase principal que maneja el estado de la transacción.
+Permite cambiar el estado  y ejecuta la lógica de validación.. 
+
+- [TransactionState]: Es una clase abstracta que los estados concretos deben implementar. - [InProgressState]: Este estado significa que la transacción se está procesando.
+Después de 1 minuto, se validará y cambiará a Aprobado o Rechazado.
+
+- [ApprovedState]: Significa que la transacción fue validada correctamente y aprobada.
+Esto ocurre cuando el número de cuenta destino existe y coincide con el tipo de cuenta.
+
+- [RejectedState]: Indica que la transacción fue rechazada por uno de estos motivos:
+
+    El número de cuenta destino NO existe.
+    El número de cuenta destino existe, pero el tipo de cuenta no coincide.
 
 ## Contribuciones
 Este proyecto fue desarrollado por: - **Andrea Julieth Sosa Rodriguez** -**Samuel Andres Rodriguez Ulloa** -**David Santiago Medina Buitrago**
