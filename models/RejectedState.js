@@ -1,4 +1,5 @@
 const TransactionState = require("./TransactionState");
+
 // This class represents the Rejected state of a transaction.
 class RejectedState extends TransactionState {
     // The constructor receives a reason for the rejection.
@@ -7,11 +8,11 @@ class RejectedState extends TransactionState {
         this.reason = reason;
     }
 
-    process(transaction, res) { // ✅ Agregamos `res` como argumento
-        // The process method logs a message with the transactionId and the reason for rejection.
-        return res.status(400).json({ 
-            error: `❌ Transaction ${transaction.transactionId} REJECTED: ${this.reason}` // ✅ Usamos template string con backticks
-        });
+    process(transaction) {
+        // Actualiza el estado y añade el motivo de rechazo en la transacción
+        transaction.status = "rejected";
+        transaction.rejectionReason = this.reason;
+        console.log(`❌ Transaction ${transaction.transactionId} REJECTED: ${this.reason}`);
     }
 }
 
