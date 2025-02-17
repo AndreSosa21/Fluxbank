@@ -44,6 +44,7 @@ class TransactionContext {
             accountType: this.accountType,
             amount: this.amount,
             status: this.status.constructor.name.replace("State", "").toLowerCase(),
+            rejectionReason: this.status instanceof RejectedState ? this.status.reason : null,
             time: this.time,
             date: this.date
         };
