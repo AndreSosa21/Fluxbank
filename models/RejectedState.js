@@ -9,9 +9,7 @@ class RejectedState extends TransactionState {
     }
 
     process(transaction) {
-        // Actualiza el estado y añade el motivo de rechazo en la transacción
-        transaction.status = "rejected";
-        transaction.rejectionReason = this.reason;
+        // The process method logs a message indicating that the transaction has been rejected with the reason provided.
         console.log(`❌ Transaction ${transaction.transactionId} REJECTED: ${this.reason}`);
     }
 }
