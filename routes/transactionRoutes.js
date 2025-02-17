@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
         return res.status(400).json({ error: "The source account and the destination account cannot be equal." });
     }
     
-    if( typeof accountType !== "string" || (accountType !== "ahorros" && accountType !== "corriente") || typeof sourceAccount !== "number" || typeof destinationAccount !== "number") {
+    if( typeof accountType !== "string" || (accountType !== "ahorros" && accountType !== "corriente")) {
         return res.status(400).json({ error: "Type of account invalid." });
     }
 
