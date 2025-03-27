@@ -12,18 +12,18 @@ const user = {
 }
 // POST Login
 loginRouter.post('/', (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     // Validar que el JSON esté completo
-    if (!email || !password) {
+    if (!username || !password) {
         return res.status(400).json({ message: "JSON incomplete" });
     }
 
     // Validar credenciales
-    if (email === user.email && password === user.password) {
+    if (username === user.username && password === user.password) {
         // Crear el token JWT
-        const emailAuth = { email }; // Datos para el token
-        const accessToken = generateToken(emailAuth);
+        const usernameAuth = { username }; // Datos para el token
+        const accessToken = generateToken(usernameAuth);
 
         return res.status(200).json({ message: "Login successful", accessToken });
     } else {
@@ -32,9 +32,9 @@ loginRouter.post('/', (req, res) => {
 });
 
 // Token generation
-function generateToken(emailAuth) {
+function generateToken(usernameAuth) {
     // Generate an access token
-    return jwt.sign(emailAuth, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '1h' });
+    return jwt.sign(usernameAuth, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '60s' });
 }
 
 // POST Logout
