@@ -1,7 +1,9 @@
 // the main file of the project
 const loginRouter = require("./models/login");
 const registerRouter = require("./models/register");
+const {usersRouter, profileRouter} = require("./models/users");
 const  authenticate  = require("./middlewares/Authentication");
+
 
 
 const express = require("express");
@@ -24,6 +26,11 @@ app.get("/", (req, res) => {
 });
 // login route
 app.use("/login", loginRouter);
+// Users routes
+app.use("/users", usersRouter);
+
+// profile route
+app.use("/profile", profileRouter);
 
 // Transaction routes
 app.use("/transactions", authenticate, transactionRoutes);

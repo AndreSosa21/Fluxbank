@@ -9,9 +9,8 @@ const registerRouter = express.Router();
 
 // Simulación de base de datos en memoria
 let users = [
-    {username: "andre",
-    password: "1234"}
-]; // Aquí se almacenarán los usuarios registrados
+    { username: "Andre", password: "1234", role: "user" }
+    ]; // Aquí se almacenarán los usuarios registrados
 
 registerRouter.get('/', (req, res) => {
     return res.status(200).json({users: users});
@@ -37,11 +36,14 @@ registerRouter.post('/', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10); // Generar un hash de la contraseña
 
         // Crear el nuevo usuario y agregarlo a la base de datos
-        const newUser = { username, password: hashedPassword };
+        const newUser = { username, password: hashedPassword , role: "user" };
+        if (username === "admin") {
+            newUser.role = "admin";
+        }
         users.push(newUser);
 
         // Crear el token JWT
-        const accessToken = generateToken({ username });
+        const accessToken = generateToken({ username, role: newUser.role });
 
         return res.status(201).json({ message: "User registered successfully", accessToken });
     } catch (error) {
