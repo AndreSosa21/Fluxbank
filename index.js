@@ -1,5 +1,6 @@
 // the main file of the project
 const loginRouter = require("./models/login");
+const registerRouter = require("./models/register");
 const  authenticate  = require("./middlewares/Authentication");
 
 
@@ -26,6 +27,9 @@ app.use("/login", loginRouter);
 
 // Transaction routes
 app.use("/transactions", authenticate, transactionRoutes);
+
+// Register route
+app.use("/register", registerRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
