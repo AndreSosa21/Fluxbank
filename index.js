@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
       "http://localhost:5173", 
-      "https://state-pattern-andresosa21-andresosa21s-projects.vercel.app"
+      "https://fluxbank-delta.vercel.app/"
     ],
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization"
