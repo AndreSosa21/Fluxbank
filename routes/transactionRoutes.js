@@ -1,41 +1,70 @@
+// routes/transactionRoutes.js
 const express = require("express");
 const TransactionContext = require("../models/TransactionContext");
+const accounts = require("../models/accountsStore");
 const router = express.Router();
 
+// Array en memoria para almacenar las transacciones
 const transactions = [];
-// The POST endpoint receives the sourceAccount, destinationAccount, accountType, and amount from the request body. It validates the request body and creates a new transaction with a unique transactionId. The transaction is added to the transactions array and the transaction status is set to InProgressState. The transaction state is then set to the current status. If any of the required fields are missing, the endpoint returns a 400 status code with an error message. If the amount is not a valid number or is less than or equal to 0, the endpoint returns a 400 status code with an error message. If the sourceAccount and destinationAccount are the same, the endpoint returns a 400 status code with an error message. If the accountType is not "ahorros" or "corriente", the endpoint returns a 400 status code with an error message.
+
+// POST /transactions: crear una transacción
 router.post("/", (req, res) => {
-    const { sourceAccount, destinationAccount, accountType, amount } = req.body;
-
-    if (!sourceAccount || !destinationAccount || !accountType || !amount) {
-        return res.status(400).json({ error: "You must complete all the fields." });
-    }
-
-    if (typeof amount !== "number" || amount <= 0) {
-        return res.status(400).json({ error: "The amount must be a valid number." });
-    }
-    if (sourceAccount === destinationAccount) {
-        return res.status(400).json({ error: "The source account and the destination account cannot be equal." });
-    }
-    
-    if( typeof accountType !== "string" || (accountType !== "ahorros" && accountType !== "corriente")) {
-        return res.status(400).json({ error: "Type of account invalid." });
-    }
-
-    const transactionId = `TXN${Date.now()}`;
-    const newTransaction = new TransactionContext(transactionId, sourceAccount, destinationAccount, accountType, amount);
-
-    transactions.push(newTransaction);
-    newTransaction.setState(newTransaction.status); 
-
-    res.status(201).json({ message: "Transaction in progress.", transactionId });
+  const { sourceAccount, destinationAccount, amount } = req.body;
+  
+  // Validar que se envíen todos los campos
+  if (!sourceAccount || !destinationAccount || amount === undefined) {
+    return res.status(400).json({ error: "All fields (sourceAccount, destinationAccount, amount) are required." });
+  }
+  
+  // Validar que el monto sea un número positivo
+  if (typeof amount !== "number" || amount <= 0) {
+    return res.status(400).json({ error: "Amount must be a positive number." });
+  }
+  
+  // Validar que las cuentas no sean iguales
+  if (sourceAccount === destinationAccount) {
+    return res.status(400).json({ error: "Source and destination accounts must be different." });
+  }
+  
+  // Validar que la cuenta origen exista y que pertenezca al usuario autenticado
+  const srcAccount = accounts.find(acc => acc.accountNumber === sourceAccount);
+  if (!srcAccount) {
+    return res.status(400).json({ error: "Source account not found." });
+  }
+  if (srcAccount.owner !== req.user.username) {
+    return res.status(403).json({ error: "You can only initiate transactions from your own account." });
+  }
+  
+  // Validar que la cuenta destino exista (se valida también en TransactionContext, pero aquí damos un feedback temprano)
+  const destAccount = accounts.find(acc => acc.accountNumber === destinationAccount);
+  if (!destAccount) {
+    return res.status(400).json({ error: "Destination account not found." });
+  }
+  
+  // Para el tipo de cuenta, se asume que es el tipo de la cuenta origen
+  const accountType = srcAccount.accountType;
+  const transactionId = `TXN${Date.now()}`;
+  const newTransaction = new TransactionContext(transactionId, sourceAccount, destinationAccount, accountType, amount);
+  
+  transactions.push(newTransaction);
+  
+  // Se inicia el procesamiento de la transacción: estado InProgress,
+  // y luego se validará (después de 60 segundos, según la lógica del InProgressState)
+  newTransaction.setState(newTransaction.status);
+  
+  return res.status(201).json({ message: "Transaction initiated.", transactionId });
 });
 
-// The GET endpoint returns an array of all transactions with their details. The transactions are formatted using the getTransactionDetails method of the TransactionContext class.
+// GET /transactions: listar las transacciones realizadas por el usuario autenticado
 router.get("/", (req, res) => {
-    const formattedTransactions = transactions.map(t => t.getTransactionDetails());
-    res.json({ transactions: formattedTransactions });
+  // Filtrar las transacciones cuyo origen pertenezca al usuario autenticado
+  const userTransactions = transactions.filter(txn => {
+    const src = accounts.find(acc => acc.accountNumber === txn.sourceAccount);
+    return src && src.owner === req.user.username;
+  });
+  
+  const formattedTransactions = userTransactions.map(txn => txn.getTransactionDetails());
+  return res.json({ transactions: formattedTransactions });
 });
 
 module.exports = router;
-

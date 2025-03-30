@@ -1,7 +1,7 @@
 // users.js
 const express = require('express');
-const authenticateRequest = require('../middlewares/oauthAuthenticate'); // Middleware OAuth2
-const authorizeRole = require('../middlewares/AuthorizationRoles');
+const authenticateRequest = require('../middlewares/oauthAuthenticate'); // Middleware de autenticación OAuth2
+const authorizeRole = require("../middlewares/AuthorizationRoles");
 const usersRouter = express.Router();
 const profileRouter = express.Router();
 
@@ -9,19 +9,32 @@ const profileRouter = express.Router();
 const registerRouter = require('./register');
 const users = registerRouter.users;
 
-// Ruta GET para que el admin vea la lista completa de usuarios
+// Importar el almacén de cuentas
+const accounts = require('./accountsStore');
+
+// Ruta para que el administrador vea la lista completa de usuarios, incluyendo sus cuentas
 usersRouter.get('/', authenticateRequest, authorizeRole('admin'), (req, res) => {
-  return res.status(200).json({ users });
+  const usersWithAccounts = users.map(user => {
+    // Filtramos las cuentas cuyo owner (propietario) coincide con el username del usuario
+    const userAccounts = accounts.filter(account => account.owner === user.username);
+    return { ...user, accounts: userAccounts };
+  });
+  return res.status(200).json({ users: usersWithAccounts });
 });
 
-// Ruta GET para que cualquier usuario (admin o user) vea su propio perfil
+// Ruta para que cualquier usuario (admin o user) vea su propio perfil con información de sus cuentas
 profileRouter.get('/', authenticateRequest, authorizeRole('admin', 'user'), (req, res) => {
-  const username = req.user.username; // Obtenemos el username desde el token OAuth2
+  const username = req.user.username; // Obtenemos el username desde el token
   const user = users.find(u => u.username === username);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-  return res.status(200).json({ user });
+
+  console.log(accounts);
+
+  // Filtramos las cuentas que pertenecen al usuario autenticado
+  const userAccounts = accounts.filter(account => account.owner === username);
+  return res.status(200).json({ user: { ...user, accounts: userAccounts } });
 });
 
 module.exports = { usersRouter, profileRouter };

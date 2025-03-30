@@ -31,47 +31,44 @@ app.oauth = new OAuth2Server({
 app.post('/oauth/token', (req, res) => {
     const request = new Request(req);
     const response = new Response(res);
-
     app.oauth.token(request, response)
-        .then(function(token) {
-            res.json(token);
-        })
-        .catch(function(err) {
-            res.status(err.code || 500).json(err);
-        });
+        .then(token => res.json(token))
+        .catch(err => res.status(err.code || 500).json(err));
 });
 
 // Middleware de autenticación que valida el token de acceso
 function authenticateRequest(req, res, next) {
     const request = new Request(req);
     const response = new Response(res);
-
     app.oauth.authenticate(request, response)
-        .then(function(token) {
-            req.user = token.user; // Se guarda la información del usuario extraída del token
+        .then(token => {
+            req.user = token.user;
             next();
         })
-        .catch(function(err) {
-            res.status(err.code || 500).json(err);
-        });
+        .catch(err => res.status(err.code || 500).json(err));
 }
 
 // Endpoint protegido: Perfil del usuario (ejemplo)
+const accounts = require("./models/accountsStore");
 app.get("/profile", authenticateRequest, (req, res) => {
-    res.json({ user: req.user });
+    const username = req.user.username;
+    const userAccounts = accounts.filter(account => account.owner === username);
+    res.json({ user: req.user, accounts: userAccounts });
 });
 
 // Rutas de transacciones (protegidas)
 const transactionRoutes = require("./routes/transactionRoutes");
 app.use("/transactions", authenticateRequest, transactionRoutes);
 
+// Rutas de creación de cuentas (protegidas)
+const accountsRoutes = require("./models/accountsRoutes");
+app.use("/accounts", authenticateRequest, accountsRoutes);
+
 // Rutas de registro (públicas)
 const registerRouter = require("./models/register");
 app.use("/register", registerRouter);
 
-// Rutas de usuarios y perfil: 
-// - La ruta "/users" muestra la lista completa de usuarios y solo puede accederse con el token del admin.
-// - La ruta "/userProfile" permite a cualquier usuario (admin o user) ver su propio perfil.
+// Rutas de usuarios y perfil (ya implementadas previamente)
 const { usersRouter, profileRouter } = require("./models/users");
 app.use("/users", authenticateRequest, usersRouter);
 app.use("/userProfile", authenticateRequest, profileRouter);
