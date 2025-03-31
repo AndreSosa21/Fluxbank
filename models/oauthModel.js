@@ -46,6 +46,7 @@ module.exports = {
       user: user
     };
     tokens.push(tokenData);
+    console.log('Token guardado:', tokenData);
     return tokenData;
   },
 

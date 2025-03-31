@@ -23,7 +23,7 @@ app.use(cors({
 const oauthModel = require('./models/oauthModel');
 app.oauth = new OAuth2Server({
     model: oauthModel,
-    accessTokenLifetime: 60, // Token con duración de 60 segundos
+    accessTokenLifetime: 3600, // Token con duración de 60 segundos
     allowBearerTokensInQueryString: true
 });
 
@@ -43,6 +43,7 @@ function authenticateRequest(req, res, next) {
     app.oauth.authenticate(request, response)
         .then(token => {
             req.user = token.user;
+            console.log("Usuario autenticado:", req.user);
             next();
         })
         .catch(err => res.status(err.code || 500).json(err));
@@ -67,6 +68,10 @@ app.use("/accounts", authenticateRequest, accountsRoutes);
 // Rutas de registro (públicas)
 const registerRouter = require("./models/register");
 app.use("/register", registerRouter);
+
+//login
+const loginRouter = require("./models/login");
+app.use("/login", loginRouter);
 
 // Rutas de usuarios y perfil (ya implementadas previamente)
 const { usersRouter, profileRouter } = require("./models/users");

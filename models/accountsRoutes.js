@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const accounts = require("./accountsStore");
 
-// POST /accounts: crea una cuenta nueva
+// POST /accounts: crea una cuenta nueva 
 router.post("/", (req, res) => {
   const { accountType, initialBalance } = req.body;
   
