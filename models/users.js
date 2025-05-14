@@ -14,6 +14,7 @@ const accounts = require('./accountsStore');
 
 // Ruta para que el administrador vea la lista completa de usuarios, incluyendo sus cuentas
 usersRouter.get('/', authenticateRequest, authorizeRole('admin'), (req, res) => {
+  console.log('Usuario autenticado:', req.user);
   const usersWithAccounts = users.map(user => {
     // Filtramos las cuentas cuyo owner (propietario) coincide con el username del usuario
     const userAccounts = accounts.filter(account => account.owner === user.username);
