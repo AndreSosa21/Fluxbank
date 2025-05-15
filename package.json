@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:ci": "jest --coverage",
     "start": "node index.js"
-  },
+ }
+,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AndreSosa21/StatePattern.git"
