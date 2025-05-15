@@ -1,6 +1,6 @@
 // login.js (versión modificada, solo para verificar credenciales si es necesario)
 // Puedes incluso remover este endpoint y dejar que el frontend se comunique directamente con /oauth/token
-
+// funcionaaaaaaaaa
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
