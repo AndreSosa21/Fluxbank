@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ─────────────────────────── FRONTEND ───────────────────────────
+  test_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias front
+        run: npm ci
+        working-directory: frontend
+
+      - name: Tests unitarios + autónomos front
+        run: |
+          npm run test:ci          # jest + cobertura
+          npm run test:auto        # por ejemplo pruebas de flujo de negocio
+
+      - name: Tests E2E/GUI con Playwright
+        run: |
+          npx playwright install --with-deps
+          npm run test:e2e
+        working-directory: frontend
+
+      - name: Subir cobertura a artefactos
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-frontend
+          path: frontend/coverage
+
+  # ─────────────────────────── BACKEND ───────────────────────────
+  test_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Temurin JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Cache Maven repo
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Compilar y ejecutar tests (unitarios + autónomos)
+        run: mvn -B verify            # Surefire + cobertura Jacoco
+
+      - name: Subir cobertura a artefactos
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-backend
+          path: target/site/jacoco
+
+  # ─────────────────────────── ANÁLISIS SONARCLOUD ───────────────────────────
+  sonarcloud:
+    needs: [test_frontend, test_backend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descargar cobertura
+        uses: actions/download-artifact@v4
+        with:
+          path: coverage
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_SCANNER_OPTS: "-Dsonar.organization=${{ secrets.SONAR_ORG }} -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}"

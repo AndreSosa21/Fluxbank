@@ -1,0 +1,34 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: [ "CI" ]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Deploy a Vercel (preview o prod)
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # Construye artefacto en local
+          npm ci
+          npm run build
+          # Sube y promueve a producción
+          vercel deploy --prod --confirm --token $VERCEL_TOKEN
