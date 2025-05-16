@@ -12,8 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors({
     origin: [
-      "https://medina-sosa-rodriguez-front-software-1.vercel.app/", 
-      "https://fluxbank-delta.vercel.app/"
+      "https://medina-sosa-rodriguez-front-software-1.vercel.app", 
+      "https://fluxbank-delta.vercel.app"
     ],
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization"
