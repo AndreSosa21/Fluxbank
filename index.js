@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors({
     origin: [
-      "http://localhost:5173", 
+      "https://medina-sosa-rodriguez-front-software-1.vercel.app/", 
       "https://fluxbank-delta.vercel.app/"
     ],
     methods: "GET,POST,PUT,DELETE",
